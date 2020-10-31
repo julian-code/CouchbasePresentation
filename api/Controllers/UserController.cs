@@ -24,7 +24,7 @@ namespace api.Controllers
             var bucket = await _bucketProvider.GetBucketAsync();
             var key = Guid.NewGuid().ToString();
             var result = await bucket.DefaultCollection().InsertAsync<User>(key, user);
-            return NoContent();
+            return CreatedAtAction(nameof(GetUser), new {id = key });
         }
 
         [HttpGet("{id}")]
