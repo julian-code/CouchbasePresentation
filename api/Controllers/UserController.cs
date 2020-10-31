@@ -12,12 +12,10 @@ namespace api.Controllers
     public class UserController : ControllerBase
     {
         private IDefaultBucketProvider _bucketProvider;
-        private readonly IClusterProvider _cluster;
 
-        public UserController(IDefaultBucketProvider bucketProvider, IClusterProvider cluster)
+        public UserController(IDefaultBucketProvider bucketProvider)
         {
             _bucketProvider = bucketProvider;
-            _cluster = cluster;
         }
 
         [HttpPost]
@@ -26,7 +24,7 @@ namespace api.Controllers
             var bucket = await _bucketProvider.GetBucketAsync();
             var key = Guid.NewGuid().ToString();
             var result = await bucket.DefaultCollection().InsertAsync<User>(key, user);
-            return CreatedAtAction(nameof(GetUser),new { id = key }, user);
+            return CreatedAtAction(nameof(GetUser), new {id = key });
         }
 
         [HttpGet("{id}")]
